@@ -1,24 +1,24 @@
-## The Framework
+## Фреймворк
 
-The Radare2 project is a set of small command-line utilities that can be used together or independently.
+Проект Radare2 - это набор небольших утилит командной строки, которые можно использовать вместе или независимо.
 
-This chapter will give you a quick understanding of them, but you can check the dedicated sections for each tool at the end of this book. 
+Эта глава даст вам быстрое представление о них, но так же каждому инструменту посвящен отдельный раздел в конце этой книги. 
 
 ### radare2
 
-The main tool of the whole framework. It uses the core of the hexadecimal editor and debugger. radare2 allows you to open a number of input/output sources as if they were simple, plain files, including disks, network connections, kernel drivers, processes under debugging, and so on.
+Главный инструмент всего фреймворка. Он использует ядро шестнадцатеричного редактора и отладчика. radare2 позволяет открывать ряд источников ввода/вывода, как если бы они были простыми файлами, включая диски, сетевые соединения, драйверы ядра, отлаживаемые процессы и т.д.
 
-It implements an advanced command line interface for moving around a file, analyzing data, disassembling, binary patching, data comparison, searching, replacing, and visualizing. It can be scripted with a variety of languages, including Python, Ruby, JavaScript, Lua, and Perl.
+Он реализует расширенный интерфейс командной строки для перемещения по файлу, анализа данных, дизассемблирования, бинарного патчинга, сравнения данных, поиска, замены и визуализации. Он поддерживает скрипты с использованием различных языков, включая Python, Ruby, JavaScript, Lua и Perl.
 
 ### rabin2
 
-A program to extract information from executable binaries, such as ELF, PE, Java CLASS, Mach-O, plus any format supported by r2 plugins. rabin2 is used by the core to get data like exported symbols, imports, file information, cross references (xrefs), library dependencies, and sections.
+Программа для извлечения информации из исполняемых двоичных файлов, таких как ELF, PE, Java CLASS, Mach-O, а также любого формата, поддерживаемого плагинами r2. rabin2 используется ядром для получения таких данных, как экспортированные символы, импорты, информация о файлах, перекрестные ссылки (внешние ссылки), библиотечные зависимости и секции.
 
 ### rasm2
 
-A command line assembler and disassembler for multiple architectures (including Intel x86 and x86-64, MIPS, ARM, PowerPC, Java, and myriad of others).
+Ассемблер и дизассемблер из командной строки для нескольких архитектур (включая Intel x86 и x86-64, MIPS, ARM, PowerPC, Java и множество других).
 
-#### Examples
+#### Примеры
 ```
 $ rasm2 -a java 'nop'
 00
@@ -32,37 +32,38 @@ $ rasm2 -a x86 -b 32 'mov eax, 33'
 b821000000
 ```
 ```
-$ echo 'push eax;nop;nop' | rasm2 -f -
+$ echo 'push eax; nop; nop' | rasm2 -f -
 509090
 ```
 
 ### rahash2
 
-An implementation of a block-based hash tool. From small text strings to large disks, rahash2 supports multiple algorithms, including MD4, MD5, CRC16, CRC32, SHA1, SHA256, and others.
-rahash2 can be used to check the integrity or track changes of big files, memory dumps, or disks.
+Реализация инструмента блочного хеширования. От небольших текстовых строк до больших дисков rahash2 поддерживает несколько алгоритмов, включая MD4, MD5, CRC16, CRC32, SHA1, SHA256 и другие.
+rahash2 можно использовать для проверки целостности или отслеживания изменений больших файлов, дампов памяти или дисков.
 
-### Examples
+### Примеры
 ```
 $ rahash2 file
 file: 0x00000000-0x00000007 sha256: 887cfbd0d44aaff69f7bdbedebd282ec96191cce9d7fa7336298a18efc3c7a5a
 ```
 ```
-$ rahash2 -a md5 file
+$ rahash2 -a file md5
 file: 0x00000000-0x00000007 md5: d1833805515fc34b46c2b9de553f599d
 ```
+
 ### radiff2
 
-A binary diffing utility that implements multiple algorithms. It supports byte-level or delta diffing for binary files, and code-analysis diffing to find changes in basic code blocks obtained from the radare code analysis.
+Бинарная утилита сравнения, реализующая несколько алгоритмов. Она поддерживает побайтное и дельта- сравнение для двоичных файлов, а также поиск изменений в блоках кода, полученных в результате анализа кода radare.
 
 ### rafind2
 
-A program to find byte patterns in files.
+Программа для поиска байтовых шаблонов в файлах.
 
 ### ragg2
 
-A frontend for r_egg. ragg2 compiles programs written in a simple high-level language into tiny binaries for x86, x86-64, and ARM.
+Интерфейс для r_egg. ragg2 компилирует программы, написанные на простом языке высокого уровня, в крошечные двоичные файлы для x86, x86-64 и ARM.
 
-#### Examples
+#### Примеры
 
 ```
 $ cat hi.r
@@ -91,14 +92,14 @@ Hello
 
 ### rarun2
 
-A launcher for running programs within different environments, with different arguments,
-permissions, directories, and overridden default file descriptors. rarun2 is useful for:
+Лаунчер для запуска программ в разных средах с разными аргументами,
+разрешениями, каталогами и переопределенными дескрипторами файлов по умолчанию. rarun2 полезен для:
 
-* Solving crackmes
+* Решение crackme
 * Fuzzing
-* Test suites
+* Тестовых наборов
 
-#### Sample rarun2 script
+#### Пример скрипта rarun2
 ```
 $ cat foo.rr2
 #!/usr/bin/rarun2
@@ -110,38 +111,39 @@ chdir=/tmp
 ./foo.rr2
 ```
 
-#### Connecting a Program with a Socket
+#### Подключение программы к сокету
+
 ```
 $ nc -l 9999
 $ rarun2 program=/bin/ls connect=localhost:9999
 ```
 
-#### Debugging a Program Redirecting the stdio into Another Terminal
+#### Отладка программы, перенаправляя stdio в другой терминал
 
-1 - open a new terminal and type 'tty' to get a terminal name:
+1. откройте новый терминал и введите `tty`, чтобы получить имя терминала:
 
 ```
 $ tty ; clear ; sleep 999999
 /dev/ttyS010
 ```
 
-2 - Create a new file containing the following rarun2 profile named foo.rr2:
+2. Создайте новый файл, содержащий следующий профиль rarun2 с именем foo.rr2:
 ```
 #!/usr/bin/rarun2
 program=/bin/ls
 stdio=/dev/ttys010
 ```
 
-3 - Launch the following radare2 command:
+3. Запустите следующую команду radare2:
 ```
 r2 -r foo.rr2 -d /bin/ls
 ```
 
 ### rax2
 
-A minimalistic mathematical expression evaluator for the shell that is useful for making base conversions between floating point values, hexadecimal representations, hexpair strings to ASCII, octal to integer, and more. It also supports endianness settings and can be used as an interactive shell if no arguments are given.
+Минималистичный калькулятор математических выражений для командной строки, который полезен для выполнения базовых преобразований между значениями с плавающей запятой, шестнадцатеричными представлениями, шестнадцатеричными строками в ASCII, восьмеричных в десятичные числа и т.д. Он также поддерживает настройки порядка байтов и может использоваться как интерактивная оболочка, если не указаны аргументы.
 
-#### Examples
+#### Примеры
 
 ```
 $ rax2 1337
